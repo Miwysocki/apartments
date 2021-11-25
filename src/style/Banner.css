@@ -1,0 +1,28 @@
+.banner {
+  background: url("https://images.mansionglobal.com/im-309574?width=1299&height=866")
+    center center;
+  background-size: auto;
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.banner_info {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  color: white;
+  margin-left: 20vw;
+  margin-right: 40vw;
+  width: 15vw;
+  height: 61vh;
+}
+
+.banner_search {
+  display: flex;
+  flex-direction: column;
+}
+.cover {
+  background: url("https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-hero.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 80vh;
+}

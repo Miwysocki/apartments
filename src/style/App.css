@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  background-image: url("https://htmlcolorcodes.com/assets/images/html-color-codes-color-tutorials-hero.jpg")
+    center center;
+  background-size: "cover";
 }
 
 .App-logo {
