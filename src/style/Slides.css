@@ -2,7 +2,19 @@
   font-size: 1.6rem;
   display: grid;
   place-items: center;
-  border: 8px solid;
   padding: 1rem;
+}
+
+.tile > img:hover {
+  opacity: 0.75;
+  transform: scale(1.1);
+}
+
+.tile > img {
+  border: 8px solid;
   border-image: linear-gradient(45deg, turquoise, greenyellow) 1;
+  float: left;
+  width: 600px;
+  height: 350px;
+  object-fit: cover;
 }

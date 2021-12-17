@@ -4,7 +4,6 @@ import "../style/Slides.css";
 
 const responsive = {
   superLargeDesktop: {
-    // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
     items: 5,
   },
@@ -40,20 +39,28 @@ const Slides = () => {
         itemClass="carousel-item-padding-40-px"
       >
         <div className="tile">
-          <img src="https://d2bgjx2gb489de.cloudfront.net/gbb-blogs/wp-content/uploads/2017/08/31151834/Giethoorn_625076066-870x400.jpg" />
-          <p>Unique Places</p>
-        </div>
-        <div>Item 2</div>
-        <figure>
           <img
             src="https://d2bgjx2gb489de.cloudfront.net/gbb-blogs/wp-content/uploads/2017/08/31151834/Giethoorn_625076066-870x400.jpg"
-            alt="Trulli"
-            // style="width:100%"
+            alt=""
           />
-          <figcaption>Fig.1 - Trulli, Puglia, Italy.</figcaption>
-        </figure>
-        <div>Item 3</div>
-        <div>Item 4</div>
+          <p>Unique Places</p>
+        </div>
+
+        <div className="tile">
+          {" "}
+          <img
+            src="https://images.pexels.com/photos/1252500/pexels-photo-1252500.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            alt=""
+          />
+          <p>Explore nerby</p>
+        </div>
+        <div className="tile">
+          <img
+            src="https://images.pexels.com/photos/4825709/pexels-photo-4825709.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            alt=""
+          />
+          <p>Guides</p>
+        </div>
       </Carousel>
     </div>
   );

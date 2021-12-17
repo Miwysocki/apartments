@@ -1,0 +1,40 @@
+export const Content = [
+  {
+    id: 0,
+    rating: "3",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4a40nVwRWKwTOt6QmZDeTiLP5FC5y7bc2kA&usqp=CAU",
+    title: "Cozy Room",
+    type: "Entire apartment",
+    city: "Warsaw",
+    host: "Jack",
+    smalldescription: "3 guests · 1 bedroom · 1 bed · 1 bath",
+    price: "300",
+    description: "Big cozy room ",
+  },
+  {
+    id: 1,
+    rating: "4",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSctDHw9bu8TLeZJKgqHOR7Cewqzn3i1x_kmg&usqp=CAU",
+    title: "Expensive Room",
+    type: "Entire apartment",
+    city: "Warsaw",
+    host: "Jack",
+    smalldescription: "3 guests · 1 bedroom · 1 bed · 1 bath",
+    price: "500",
+    description: "Big cozy room ",
+  },
+  {
+    id: 2,
+    rating: "4",
+    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSctDHw9bu8TLeZJKgqHOR7Cewqzn3i1x_kmg&usqp=CAU",
+    title: "Big Room",
+    type: "Entire apartment",
+    city: "New York",
+    host: "Jack",
+    smalldescription: "3 guests · 1 bedroom · 1 bed · 1 bath",
+    price: "456",
+    description: "Big cozy room ",
+  },
+];
+
+export default Content;

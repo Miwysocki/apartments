@@ -1,0 +1,9 @@
+.ofert {
+  display: grid;
+  padding: 1rem;
+}
+
+.ofert > img:hover {
+  opacity: 0.75;
+  transform: scale(1.1);
+}
