@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 function Copyright(props) {
   return (
@@ -43,7 +44,9 @@ const theme = createTheme();
 
 export default function SignUp() {
   const [errorMessage, setErrorMessage] = useState("");
-  const handleSubmit = (event) => {
+  const { signup, currentUser } = useAuth();
+
+  async function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let user = {
@@ -53,40 +56,10 @@ export default function SignUp() {
       password: data.get("password"),
     };
 
-    if (!user.firstName || !user.lastName) {
-      setErrorMessage("Enter the name");
-    } else if (!validateEmail(user.email)) {
-      setErrorMessage("Please enter valid email address");
-    } else if (!user.password) {
-      setErrorMessage("Enter the passwor");
-    } else {
-      postUser(user);
-    }
-  };
-
-  async function postUser(user) {
-    const rsp = await fetch("http://localhost:8080/api/v1/registration", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        password: user.password,
-      }),
-    });
-
-    const data = await rsp.text();
-    if (rsp.status === 409) {
-      setErrorMessage("Email already exist");
-      document.getElementById("message").style.color = "red";
-    }
-    if (rsp.status === 200) {
-      setErrorMessage("Created Account!");
-      document.getElementById("message").style.color = "green";
+    try {
+      await signup(user.email, user.password);
+    } catch {
+      setErrorMessage("Failed to create an acount");
     }
   }
 

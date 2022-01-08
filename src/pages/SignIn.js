@@ -12,6 +12,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -34,15 +37,27 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  async function handleSubmit(event) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     // eslint-disable-next-line no-console
+    let email = data.get("email");
+    let password = data.get("password");
     console.log({
       email: data.get("email"),
       password: data.get("password"),
     });
-  };
+    try {
+      await login(email, password);
+      navigate("/");
+    } catch {
+      setErrorMessage("Failed to log in");
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -62,6 +77,9 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
+          <h3 id="message" style={{ color: "red" }}>
+            {errorMessage}
+          </h3>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -102,7 +120,7 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/forgot-password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

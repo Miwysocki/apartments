@@ -4,8 +4,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import Avatar from "@mui/material/Avatar";
 import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext";
 
 function Header() {
+  const { currentUser, logout } = useAuth();
+
+  async function handleLogout(e) {
+    await logout();
+    // window.location.reload(false);
+  }
+
   return (
     <div className="header">
       <img
@@ -18,17 +26,26 @@ function Header() {
         <SearchIcon />
       </div>
       <div className="header_right">
-        <p style={{ marginRight: "10px" }}>
-          <Link className="link" to="/log-in">
-            Log in
-          </Link>{" "}
-          <Link className="link" to="/sign-up">
-            Sign up
-          </Link>{" "}
-        </p>
+        {currentUser ? (
+          currentUser.email
+        ) : (
+          <p style={{ marginRight: "10px" }}>
+            <Link className="link" to="/log-in">
+              Log in
+            </Link>{" "}
+            <Link className="link" to="/sign-up">
+              Sign up
+            </Link>{" "}
+          </p>
+        )}
         <IconButton onClick={() => console.log("hi")}>
           <Avatar></Avatar>
         </IconButton>
+        {currentUser && (
+          <Link to="/" onClick={handleLogout}>
+            Log out
+          </Link>
+        )}
       </div>
     </div>
   );
