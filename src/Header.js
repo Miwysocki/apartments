@@ -30,11 +30,15 @@ function Header() {
 
   return (
     <div className="header">
-      <img
-        className="header_icon"
-        src="https://cdn-icons-png.flaticon.com/512/25/25694.png"
-        alt=""
-      />
+      <Link to="/">
+        {" "}
+        <img
+          className="header_icon"
+          src="https://cdn-icons-png.flaticon.com/512/25/25694.png"
+          alt=""
+        />
+      </Link>
+
       <div className="header_center">
         <input type="text"></input>
         <SearchIcon />
@@ -52,8 +56,10 @@ function Header() {
             </Link>{" "}
           </p>
         )}
-        <IconButton onClick={() => console.log("hi")}>
-          <Avatar>{initials}</Avatar>
+        <IconButton>
+          <Link to="/my-profile" style={{ textDecoration: "none" }}>
+            <Avatar>{initials}</Avatar>
+          </Link>
         </IconButton>
         {currentUser && (
           <Link to="/" onClick={handleLogout}>
