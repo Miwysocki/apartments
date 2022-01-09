@@ -51,8 +51,6 @@ export default function UpdateProfile() {
   async function uploadPicture() {
     let picUrl = currentUser.uid + "_avatar.jpg";
     const storage = getStorage();
-    const storageRef = ref(storage, picUrl);
-    const profilePicRef = ref(storage, picUrl);
     const profilePicImagesRef = ref(storage, "profileImages/" + picUrl);
     const selectedFile = document.getElementById("file").files[0];
 

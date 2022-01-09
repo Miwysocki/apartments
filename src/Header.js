@@ -7,14 +7,21 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
 import db from "./firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { useEffect } from "react";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 function Header() {
   const { currentUser, logout } = useAuth();
   const [initials, setInitials] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState("");
 
   async function handleLogout(e) {
     await logout();
   }
+  useEffect(() => {
+    getInitials();
+    getAvatar();
+  }, []);
 
   async function getInitials() {
     const docRef = doc(db, "users", currentUser.uid);
@@ -26,7 +33,23 @@ function Header() {
       setInitials(initials);
     }
   }
-  getInitials();
+
+  async function getAvatar() {
+    const storage = getStorage();
+    const pathReference = ref(
+      storage,
+      "profileImages/" + currentUser.uid + "_avatar.jpg"
+    );
+    console.log(pathReference);
+
+    getDownloadURL(ref(storage, pathReference))
+      .then((url) => {
+        setAvatarUrl(url);
+      })
+      .catch((error) => {
+        // Handle any errors
+      });
+  }
 
   return (
     <div className="header">
@@ -58,7 +81,7 @@ function Header() {
         )}
         <IconButton>
           <Link to="/my-profile" style={{ textDecoration: "none" }}>
-            <Avatar>{initials}</Avatar>
+            <Avatar src={avatarUrl}>{initials}</Avatar>
           </Link>
         </IconButton>
         {currentUser && (

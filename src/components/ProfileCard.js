@@ -37,7 +37,6 @@ export default function ProfileCard() {
       storage,
       "profileImages/" + currentUser.uid + "_avatar.jpg"
     );
-    console.log(pathReference);
 
     getDownloadURL(ref(storage, pathReference))
       .then((url) => {
