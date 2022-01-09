@@ -1,8 +1,11 @@
 // import React from "react";
 // import { useState, useEffect } from "react";
+// import { doc, setDoc } from "firebase/firestore";
+// import db from "../firebase";
 // const Test = () => {
 //   useEffect(() => {
-//     postData(person);
+//     let res = create();
+//     console.log(res);
 //   }, []);
 
 //   let person = {
@@ -12,19 +15,11 @@
 //     password: "haslo",
 //   };
 
-//   function postData() {
-//     fetch("http://localhost:8080/api/v1/registration", {
-//       method: "POST",
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         firstName: "Aaaann",
-//         lastName: "Kowalski",
-//         email: "adsfdsafsd@o2.pl",
-//         password: "haslo",
-//       }),
+//   async function create() {
+//     await setDoc(doc(db, "cities", "LA"), {
+//       name: "Los Angeles",
+//       state: "CA",
+//       country: "USA",
 //     });
 //   }
 

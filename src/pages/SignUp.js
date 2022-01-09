@@ -57,7 +57,7 @@ export default function SignUp() {
     };
 
     try {
-      await signup(user.email, user.password);
+      await signup(user.email, user.password, user.firstName, user.lastName);
     } catch {
       setErrorMessage("Failed to create an acount");
     }

@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import Details from "./components/Details";
 import { AuthProvider } from "./contexts/AuthContext";
 import ForgotPassword from "./pages/ForgotPassword";
+import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <AuthProvider>
@@ -17,13 +18,9 @@ function App() {
           <Route exact path="/sign-up" element={<SignUp />} />
           <Route exact path="/forgot-password" element={<ForgotPassword />} />
           <Route exact path="/room/:id" element={<Details />} />
-          {/* <Route exact path="/login" element={<Login />} /> */}
-          {/* <Route
-            exact
-            path="/recovery-password"
-            element={<RecoveryPassword />}
-          />
-          <Route path="*" element={<NotFound />} /> */}
+          <Route path="/my-profile" element={<PrivateRoute />}>
+            <Route path="/my-profile" element={<Home />} />
+          </Route>
         </Routes>
       </Router>
     </AuthProvider>
