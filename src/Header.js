@@ -1,18 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style/Header.css";
 import SearchIcon from "@mui/icons-material/Search";
 import Avatar from "@mui/material/Avatar";
 import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAuth } from "./contexts/AuthContext";
+import db from "./firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 function Header() {
   const { currentUser, logout } = useAuth();
+  const [initials, setInitials] = useState("");
 
   async function handleLogout(e) {
     await logout();
-    // window.location.reload(false);
   }
+
+  async function getInitials() {
+    const docRef = doc(db, "users", currentUser.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      let user = docSnap.data();
+      let initials = user.firstName[0] + user.lastName[0];
+      setInitials(initials);
+    }
+  }
+  getInitials();
 
   return (
     <div className="header">
@@ -39,7 +53,7 @@ function Header() {
           </p>
         )}
         <IconButton onClick={() => console.log("hi")}>
-          <Avatar></Avatar>
+          <Avatar>{initials}</Avatar>
         </IconButton>
         {currentUser && (
           <Link to="/" onClick={handleLogout}>

@@ -14,6 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -45,6 +46,7 @@ const theme = createTheme();
 export default function SignUp() {
   const [errorMessage, setErrorMessage] = useState("");
   const { signup, currentUser } = useAuth();
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -58,6 +60,7 @@ export default function SignUp() {
 
     try {
       await signup(user.email, user.password, user.firstName, user.lastName);
+      navigate("/");
     } catch {
       setErrorMessage("Failed to create an acount");
     }
