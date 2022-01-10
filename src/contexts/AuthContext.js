@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
 import db from "../firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 const AuthContext = React.createContext();
 
@@ -11,6 +12,8 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
+  const [currentUserData, setCurrentUserData] = useState();
+  const [currentUserAvatarUrl, setCurrentUserAvatarUrl] = useState();
   const [loading, setLoading] = useState(true);
 
   async function signup(email, password, firstName, LastName) {
@@ -46,10 +49,57 @@ export function AuthProvider({ children }) {
     return currentUser.updatePassword(password);
   }
 
+  async function setCurrentData(user) {
+    if (!user) return;
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      var userData = docSnap.data();
+      setCurrentUserData(userData);
+    }
+    //Avatar
+    const storage = getStorage();
+    const pathReference = ref(
+      storage,
+      "profileImages/" + user.uid + "_avatar.jpg"
+    );
+
+    getDownloadURL(ref(storage, pathReference))
+      .then((url) => {
+        setCurrentUserAvatarUrl(url);
+      })
+      .catch((error) => {
+        // Handle any errors
+      });
+
+    setLoading(false);
+  }
+
+  // function getCurrentUserAvatarUrl() {
+  //   if (currentUser) {
+  //     const storage = getStorage();
+  //     const pathReference = ref(
+  //       storage,
+  //       "profileImages/" + currentUser.uid + "_avatar.jpg"
+  //     );
+
+  //     getDownloadURL(ref(storage, pathReference))
+  //       .then((url) => {
+  //         setCurrentUserAvatarUrl(url);
+  //       })
+  //       .catch((error) => {
+  //         // Handle any errors
+  //       });
+  //   }
+  //   setLoading(false);
+  // }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
-      setLoading(false);
+      setCurrentData(user);
+      if (!user) setLoading(false);
     });
 
     return unsubscribe;
@@ -57,6 +107,8 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    currentUserData,
+    currentUserAvatarUrl,
     login,
     signup,
     logout,
