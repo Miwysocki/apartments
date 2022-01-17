@@ -10,7 +10,6 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
-import DatePicker from "@mui/lab/DatePicker";
 import Alert from "@mui/material/Alert";
 
 function handleNumberInput(event) {
@@ -24,8 +23,6 @@ export class DetailsForm extends Component {
     this.state = {
       thumbnails: [],
       files: [],
-      valid: false,
-      error: false,
     };
     this.handleFiles = this.handleFiles.bind(this);
   }
@@ -39,13 +36,11 @@ export class DetailsForm extends Component {
       files: [...this.state.files, event.target.files[0]],
     });
 
-    console.log("test wy" + this.state.files);
     this.props.handlePhotos(event.target.files[0]);
   }
 
   render() {
     const { values, handleChange } = this.props;
-    var array = [];
 
     return (
       <>
@@ -54,11 +49,6 @@ export class DetailsForm extends Component {
           <Typography variant="h6" gutterBottom>
             Details
           </Typography>
-          {this.state.error && (
-            <Alert severity="error">
-              This is an error alert — check it out!
-            </Alert>
-          )}
 
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -87,6 +77,7 @@ export class DetailsForm extends Component {
                 multiline
                 minRows={2}
                 onChange={handleChange("description")}
+                defaultValue={values.description}
               />
             </Grid>
             <Grid item xs={12}></Grid>
@@ -107,6 +98,7 @@ export class DetailsForm extends Component {
                 }}
                 variant="standard"
                 onChange={handleChange("rooms")}
+                defaultValue={values.rooms}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -126,25 +118,30 @@ export class DetailsForm extends Component {
                 }}
                 variant="standard"
                 onChange={handleChange("guests")}
+                defaultValue={values.guests}
               />
             </Grid>
 
             <Grid item xs={12} sm={6}>
               <label htmlFor="start">Offert start date: </label>
               <input
+                // defaultValue={"2022-01-17"}
                 type="date"
                 id="start"
                 name="start"
                 onChange={handleChange("startDate")}
+                defaultValue={values.startDate}
               ></input>
             </Grid>
             <Grid item xs={12} sm={6}>
               <label htmlFor="end">Offert end date: </label>
               <input
+                // defaultValue={"2023-01-17"}
                 type="date"
                 id="end"
                 name="end"
                 onChange={handleChange("endDate")}
+                defaultValue={values.endDate}
               ></input>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -157,6 +154,7 @@ export class DetailsForm extends Component {
                   onKeyDown={(event) => handleNumberInput(event)}
                   required
                   onChange={handleChange("price")}
+                  defaultValue={values.price}
                   startAdornment={
                     <InputAdornment position="start">$</InputAdornment>
                   }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import FormUserDetails from "./FormUserDetails";
 import DetailsForm from "./DetailsForm";
 import Confirm from "./Confirm";
-import Success from "./Success";
+
 import Header from "../Header";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -16,6 +16,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
 import Copyright from "../components/Copyright";
 import Alert from "@mui/material/Alert";
+
+import OffersManager from "../components/OffersManager";
 
 export class UserForm extends Component {
   state = {
@@ -33,13 +35,12 @@ export class UserForm extends Component {
     photos: [],
     startDate: "",
     endDate: "",
-    validation: false,
     error: false,
   };
 
-  nextStep = () => {
+  nextStep = async () => {
     const { step } = this.state;
-    // let validation = validate
+
     if (this.validate()) {
       this.setState({
         step: step + 1,
@@ -49,10 +50,6 @@ export class UserForm extends Component {
       this.setState({
         error: true,
       });
-    }
-
-    if (step === 3) {
-      console.log("state:", this.state);
     }
   };
 
@@ -71,11 +68,20 @@ export class UserForm extends Component {
       startDate,
       endDate,
     } = this.state;
-    if (step === 1) {
-      if (apartmentName && address && city && country && zip) return true;
-    } else if (step === 2) {
-      if (description && guests && price && rooms && startDate && endDate)
-        return true;
+    switch (step) {
+      case 1:
+        if (apartmentName && address && city && country && zip) return true;
+        break;
+      case 2:
+        if (description && guests && price && rooms && startDate && endDate)
+          return true;
+        break;
+      case 3:
+        if (apartmentName && address && city && country && zip) return true;
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -131,8 +137,7 @@ export class UserForm extends Component {
             />
           </>
         );
-      case 4:
-        return <Success />;
+
       default:
     }
   }
@@ -208,6 +213,7 @@ export class UserForm extends Component {
               <React.Fragment>
                 {step === steps.length + 1 ? (
                   <React.Fragment>
+                    <OffersManager offert={this.state} />
                     <Typography variant="h5" gutterBottom>
                       Thank you for your order.
                     </Typography>

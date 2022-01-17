@@ -76,25 +76,6 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }
 
-  // function getCurrentUserAvatarUrl() {
-  //   if (currentUser) {
-  //     const storage = getStorage();
-  //     const pathReference = ref(
-  //       storage,
-  //       "profileImages/" + currentUser.uid + "_avatar.jpg"
-  //     );
-
-  //     getDownloadURL(ref(storage, pathReference))
-  //       .then((url) => {
-  //         setCurrentUserAvatarUrl(url);
-  //       })
-  //       .catch((error) => {
-  //         // Handle any errors
-  //       });
-  //   }
-  //   setLoading(false);
-  // }
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
