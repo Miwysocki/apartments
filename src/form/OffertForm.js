@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import FormUserDetails from "./FormUserDetails";
+import AddressForm from "./AddressForm";
 import DetailsForm from "./DetailsForm";
 import Confirm from "./Confirm";
-
 import Header from "../Header";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
@@ -16,10 +15,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { red } from "@mui/material/colors";
 import Copyright from "../components/Copyright";
 import Alert from "@mui/material/Alert";
+import OffersUpload from "../components/OfferUpload";
 
-import OffersManager from "../components/OffersManager";
-
-export class UserForm extends Component {
+export class OffertForm extends Component {
   state = {
     step: 1,
     apartmentName: "",
@@ -106,7 +104,7 @@ export class UserForm extends Component {
       case 1:
         return (
           <>
-            <FormUserDetails
+            <AddressForm
               nextStep={this.nextStep}
               handleChange={this.handleChange}
               values={values}
@@ -213,15 +211,11 @@ export class UserForm extends Component {
               <React.Fragment>
                 {step === steps.length + 1 ? (
                   <React.Fragment>
-                    <OffersManager offert={this.state} />
+                    <OffersUpload offert={this.state} />
                     <Typography variant="h5" gutterBottom>
-                      Thank you for your order.
+                      Your offert has been uploaded.
                     </Typography>
-                    <Typography variant="subtitle1">
-                      Your order number is #2001539. We have emailed your order
-                      confirmation, and will send you an update when your order
-                      has shipped.
-                    </Typography>
+                    <Typography variant="subtitle1"></Typography>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
@@ -260,4 +254,4 @@ export class UserForm extends Component {
   }
 }
 
-export default UserForm;
+export default OffertForm;

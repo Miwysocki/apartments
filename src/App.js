@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import Details from "./components/Details";
+import Details from "./pages/Details";
 import { AuthProvider } from "./contexts/AuthContext";
 import ForgotPassword from "./pages/ForgotPassword";
 import PrivateRoute from "./components/PrivateRoute";
 import MyProfile from "./pages/MyProfile";
 import UpdateProfile from "./pages/UpdateProfile";
-import { UserForm } from "./form/UserForm";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import OffertForm from "./form/OffertForm";
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -26,7 +26,7 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route path="/my-profile" element={<MyProfile />} />
               <Route path="/updateProfile" element={<UpdateProfile />} />
-              <Route path="/host-place" element={<UserForm />} />
+              <Route path="/host-place" element={<OffertForm />} />
             </Route>
           </Routes>
         </Router>

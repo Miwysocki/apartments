@@ -13,7 +13,7 @@ const Details = () => {
     </div>
   ));
 
-  const tits = Content.map((e) => <h1>{e.title}</h1>);
+  const titles = Content.map((e) => <h1>{e.title}</h1>);
   const pickedOfert = Content.find((e) => e.id == id);
 
   return (

@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
 
-export class FormUserDetails extends Component {
+export class AddressForm extends Component {
   continue = (e) => {
     e.preventDefault();
     this.props.nextStep();
@@ -116,4 +116,4 @@ export class FormUserDetails extends Component {
   }
 }
 
-export default FormUserDetails;
+export default AddressForm;
