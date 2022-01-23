@@ -33,6 +33,7 @@ export class OffertForm extends Component {
     photos: [],
     startDate: "",
     endDate: "",
+    amenities: [false, false, false, false],
     error: false,
   };
 
@@ -92,11 +93,22 @@ export class OffertForm extends Component {
 
   handleChange = (input) => (e) => {
     this.setState({ [input]: e.target.value });
+    console.log(this.state.amenities + " no tuu");
+    console.log(e.target.value + " ee targ");
   };
 
   handlePhotos = (input) => {
     let files = [...this.state.photos, input];
     this.setState({ photos: files });
+  };
+
+  handleAmenities = (input) => {
+    console.log("hand " + input);
+    let am = this.state.amenities;
+    am[input] = !am[input];
+
+    this.setState({ amenities: am });
+    console.log("am  " + am);
   };
 
   getStepContent(step, values) {
@@ -120,6 +132,7 @@ export class OffertForm extends Component {
               prevStep={this.prevStep}
               handleChange={this.handleChange}
               handlePhotos={this.handlePhotos}
+              handleAmenities={this.handleAmenities}
               values={values}
             />
           </>
@@ -156,6 +169,7 @@ export class OffertForm extends Component {
       photos,
       startDate,
       endDate,
+      amenities,
     } = this.state;
     const values = {
       apartmentName,
@@ -171,6 +185,7 @@ export class OffertForm extends Component {
       photos,
       startDate,
       endDate,
+      amenities,
     };
     const theme = createTheme({
       palette: {

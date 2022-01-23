@@ -11,6 +11,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import FormControl from "@mui/material/FormControl";
 import Alert from "@mui/material/Alert";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 function handleNumberInput(event) {
   if (event.key === "." || event.key === "e") event.preventDefault();
@@ -25,6 +26,7 @@ export class DetailsForm extends Component {
       files: [],
     };
     this.handleFiles = this.handleFiles.bind(this);
+    this.handlecheck = this.handlecheck.bind(this);
   }
 
   handleFiles(event) {
@@ -37,6 +39,31 @@ export class DetailsForm extends Component {
     });
 
     this.props.handlePhotos(event.target.files[0]);
+  }
+
+  handlecheck(event) {
+    // let amenity = event.target.value;
+    // if (event.target.checked) {
+    //   console.log("dodanie " + amenity);
+    //   this.setState({
+    //     amenities: [...this.state.amenities, event.target.value],
+    //   });
+    // } else {
+    //   let index = this.state.amenities.indexOf(amenity);
+    //   if (index !== -1) {
+    //     this.state.amenities.splice(index, 1);
+    //   }
+    // }
+    // let am = this.state.amenities;
+    // am[event.target.value] = !am[event.target.value];
+    // this.setState({
+    //   amenities: am,
+    // });
+    console.log("halooo value " + event.target.value);
+    this.props.handleAmenities(event.target.value);
+    // console.log("e  " + event.target.value);
+    // console.log("amen  " + this.state.amenities);
+    // this.props.handleAmenities(this.state.amenities);
   }
 
   render() {
@@ -159,6 +186,49 @@ export class DetailsForm extends Component {
                     <InputAdornment position="start">$</InputAdornment>
                   }
                 />
+                <h4>Amenities</h4>
+                <Grid item xs={12} sm={100}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={0}
+                        onChange={this.handlecheck}
+                        checked={values.amenities[0]}
+                      />
+                    }
+                    label="Air conditioning"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={1}
+                        onChange={this.handlecheck}
+                        checked={values.amenities[1]}
+                      />
+                    }
+                    label="WiFi"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={2}
+                        onChange={this.handlecheck}
+                        checked={values.amenities[2]}
+                      />
+                    }
+                    label="Kitchen"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={3}
+                        onChange={this.handlecheck}
+                        checked={values.amenities[3]}
+                      />
+                    }
+                    label="Parking"
+                  />
+                </Grid>
               </FormControl>
             </Grid>
           </Grid>

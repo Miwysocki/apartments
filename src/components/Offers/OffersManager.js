@@ -4,7 +4,6 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 export const useOffert = () => {
   const storage = getStorage();
   async function getOffertByID(id) {
-    console.log(id);
     const docRef = doc(db, "offers", id);
     const docSnap = await getDoc(docRef);
 

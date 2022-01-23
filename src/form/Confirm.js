@@ -6,16 +6,6 @@ import { List, ListItem, ListItemText } from "@mui/material";
 import Button from "@mui/material/Button";
 
 export class Confirm extends Component {
-  continue = (e) => {
-    e.preventDefault();
-    this.props.nextStep();
-  };
-
-  back = (e) => {
-    e.preventDefault();
-    this.props.prevStep();
-  };
-
   render() {
     const { values, handleChange } = this.props;
     const {
@@ -33,11 +23,29 @@ export class Confirm extends Component {
         photos,
         startDate,
         endDate,
+        amenities,
       },
     } = this.props;
+    function getAmenites() {
+      let s = "";
+      if (amenities[0]) {
+        s += "Air condiioning ";
+      }
+      if (amenities[1]) {
+        s += " WiFi ";
+      }
+      if (amenities[2]) {
+        s += " Kitchen ";
+      }
+      if (amenities[3]) {
+        s += " Parking space ";
+      }
+      return s;
+    }
 
     return (
       <>
+        {" "}
         <List>
           <ListItem>
             <ListItemText primary="Apartment name" secondary={apartmentName} />
@@ -77,6 +85,9 @@ export class Confirm extends Component {
           </ListItem>
           <ListItem>
             <ListItemText primary="Offert end date" secondary={endDate} />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Amenities" secondary={getAmenites()} />
           </ListItem>
         </List>
       </>
