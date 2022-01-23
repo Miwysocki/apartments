@@ -33,10 +33,14 @@ export default function UpdateProfile() {
     const data = new FormData(event.currentTarget);
     let city = data.get("city");
     let description = data.get("description");
+    let phone = data.get("phone");
+    let email = data.get("email");
 
     let changes = {};
     if (city) changes.city = city;
     if (description) changes.description = description;
+    if (phone) changes.phone = phone;
+    if (email) changes.email = email;
     try {
       await updateDoc(usersRef, changes);
       uploadPicture();
@@ -107,7 +111,25 @@ export default function UpdateProfile() {
                 autoComplete="description"
                 autoFocus
               />
-              <label for="profilePicture">Profile picture: </label>
+              <TextField
+                margin="normal"
+                fullWidth
+                id="phone"
+                label="Phone number"
+                name="phone"
+                autoComplete="phone"
+                autoFocus
+              />
+              <TextField
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              <label htmlFor="profilePicture">Profile picture: </label>
               <input
                 id="file"
                 type="file"

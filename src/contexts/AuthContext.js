@@ -25,6 +25,7 @@ export function AuthProvider({ children }) {
       await setDoc(doc(db, "users", cred.user.uid), {
         firstName: firstName,
         lastName: LastName,
+        email: email,
       });
     }
   }

@@ -20,18 +20,16 @@ const UserOffers = (props) => {
 
     querySnapshot.forEach((doc) => {
       offers.push(doc.data());
+      offers[offers.length - 1].offertID = doc.id;
     });
     return offers;
   }
 
   async function mapOffers() {
     const offers = await getOffers();
-    console.log("po get" + offers);
     const offersListed = offers.map((data, id) => {
       return (
         <div key={id}>
-          {/* <h2>{data.apartmentName}</h2>
-          <p>b</p> */}
           <OffertCard offert={data} />
         </div>
       );

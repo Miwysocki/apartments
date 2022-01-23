@@ -5,59 +5,66 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useAuth } from "../contexts/AuthContext";
 import { useEffect, useState } from "react";
-import db from "../firebase";
-import { doc, getDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
+import { useOffert } from "./Offers/OffersManager";
+import PhoneIcon from "@mui/icons-material/Phone";
+import EmailIcon from "@mui/icons-material/Email";
+import Email from "@mui/icons-material/Email";
 
-export default function ProfileCard() {
-  const { currentUser, currentUserAvatarUrl, currentUserData } = useAuth();
+export default function ProfileCard(props) {
+  const { userID, myProfile } = props;
   const [userData, setUserData] = useState();
+  const [avatar, setavatar] = useState();
+  const { getAvatar, getUserDetails } = useOffert();
   useEffect(() => {
-    getUserDetails();
+    init();
   }, []);
 
-  async function getUserDetails() {
-    const docRef = doc(db, "users", currentUser.uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      let user = docSnap.data();
-      setUserData(user);
-    }
+  async function init() {
+    setavatar(await getAvatar(userID));
+    setUserData(await getUserDetails(userID));
   }
 
   return (
     <>
-      {" "}
       <Card sx={{ maxWidth: 345 }}>
         <CardMedia
           component="img"
           id="myimg"
           height="140"
           image={
-            currentUserAvatarUrl
-              ? currentUserAvatarUrl
+            avatar
+              ? avatar
               : "https://mui.com/static/images/cards/contemplative-reptile.jpg"
           }
-          alt="green iguana"
+          alt="avatar"
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {currentUserData &&
-              currentUserData.firstName + " " + currentUserData.lastName}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            City : {currentUserData.city} <br></br>
-            Description : {currentUserData && currentUserData.description}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Link to="/updateProfile" style={{ textDecoration: "none" }}>
-            <Button size="small">Update Profile</Button>
-          </Link>
-        </CardActions>
+        {userData && (
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {userData.firstName + " " + userData.lastName}
+            </Typography>
+            <Typography variant="body2">
+              City : {userData.city} <br></br>
+              Description : {userData.description}
+              <br />
+              <PhoneIcon />
+              {"\u00A0"}
+              {"\u00A0"} {userData.phone}
+              <br />
+              <Email />
+              {"\u00A0"} {userData.email}
+            </Typography>
+          </CardContent>
+        )}
+        {myProfile && (
+          <CardActions>
+            <Link to="/updateProfile" style={{ textDecoration: "none" }}>
+              <Button size="small">Update Profile</Button>
+            </Link>
+          </CardActions>
+        )}
       </Card>
     </>
   );

@@ -16,11 +16,12 @@ const MyProfile = () => {
       <br></br>
 
       <div style={{ marginLeft: "50px", marginTop: "30px" }}>
-        <ProfileCard />
+        <ProfileCard myProfile={true} userID={currentUser.uid} />
       </div>
 
-      <div>
-        <p>My offers</p>
+      <div style={{ position: "absolute", right: 120, top: 100 }}>
+        <h3>My offers</h3>
+
         <UserOffers userID={currentUser.uid} />
       </div>
     </div>
