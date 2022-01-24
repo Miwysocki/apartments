@@ -19,6 +19,10 @@ import ProfileCard from "../components/ProfileCard";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import Favorite from "@mui/icons-material/Favorite";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
+import Wifi from "@mui/icons-material/Wifi";
+import KitchenIcon from "@mui/icons-material/Kitchen";
+import LocalParkingIcon from "@mui/icons-material/LocalParking";
 
 const Details = () => {
   const { id } = useParams();
@@ -140,6 +144,26 @@ const Details = () => {
                   {offert.price}
                   <Typography variant="body1">{offert.description}</Typography>
                   <h3>Amenities</h3>
+                  {offert.amenities[0] && (
+                    <div>
+                      <AcUnitIcon /> Air Conditioning
+                    </div>
+                  )}
+                  {offert.amenities[1] && (
+                    <div>
+                      <Wifi /> WiFi
+                    </div>
+                  )}
+                  {offert.amenities[2] && (
+                    <div>
+                      <KitchenIcon /> Kitchen
+                    </div>
+                  )}
+                  {offert.amenities[3] && (
+                    <div>
+                      <LocalParkingIcon /> Parking space
+                    </div>
+                  )}
                 </CardContent>
                 <CardActions>
                   <IconButton aria-label="add to favorites">

@@ -93,8 +93,6 @@ export class OffertForm extends Component {
 
   handleChange = (input) => (e) => {
     this.setState({ [input]: e.target.value });
-    console.log(this.state.amenities + " no tuu");
-    console.log(e.target.value + " ee targ");
   };
 
   handlePhotos = (input) => {
@@ -103,12 +101,11 @@ export class OffertForm extends Component {
   };
 
   handleAmenities = (input) => {
-    console.log("hand " + input);
     let am = this.state.amenities;
     am[input] = !am[input];
 
     this.setState({ amenities: am });
-    console.log("am  " + am);
+    // console.log("am  " + am);
   };
 
   getStepContent(step, values) {
