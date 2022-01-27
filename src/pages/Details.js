@@ -23,6 +23,7 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import Wifi from "@mui/icons-material/Wifi";
 import KitchenIcon from "@mui/icons-material/Kitchen";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
+import ReservationCard from "../components/Offers/ReservationCard";
 
 const Details = () => {
   const { id } = useParams();
@@ -38,7 +39,6 @@ const Details = () => {
   async function init() {
     const offert = await getOffertByID(id);
     setOffert(offert);
-    console.log(offert);
     return offert;
   }
 
@@ -106,7 +106,7 @@ const Details = () => {
                 rowHeight={164}
               >
                 {photos.map((item) => (
-                  <ImageListItem key={item.img}>
+                  <ImageListItem key={item}>
                     <Link to="#">
                       <img
                         src={item}
@@ -124,57 +124,72 @@ const Details = () => {
             )}
           </div>
         </div>
-        {offert && (
-          <div style={{ position: "absolute", right: 70 }}>
-            <h3>Host</h3>
-            <ProfileCard userID={offert.ownerID} />
-          </div>
-        )}
-        {offert && (
-          <div style={{ position: "absolute", left: 200 }}>
-            <h3>Informations</h3>
 
-            <Paper elevation={3}>
+        {offert && (
+          <div className="container">
+            {/* style={{ position: "absolute", left: 200 }} */}
+            <div>
               {" "}
-              <Card sx={{ minWidth: 275, maxWidth: 600 }}>
-                <CardContent>
-                  <HotelIcon /> &nbsp;&nbsp;{offert.guests}&nbsp;{" · "}&nbsp;{" "}
-                  &nbsp;Rooms {offert.rooms} &nbsp;&nbsp;{" · "} &nbsp;&nbsp;
-                  <AttachMoneyIcon />
-                  {offert.price}
-                  <Typography variant="body1">{offert.description}</Typography>
-                  <h3>Amenities</h3>
-                  {offert.amenities[0] && (
-                    <div>
-                      <AcUnitIcon /> Air Conditioning
+              <h3>Informations</h3>
+              <Paper elevation={3}>
+                {" "}
+                <Card sx={{ minWidth: 275, maxWidth: 600 }}>
+                  <CardContent>
+                    <div className="center">
+                      <HotelIcon /> &nbsp;&nbsp;{offert.guests}&nbsp;{" · "}
+                      &nbsp; &nbsp;Rooms {offert.rooms} &nbsp;&nbsp;{" · "}{" "}
+                      &nbsp;&nbsp;
+                      <AttachMoneyIcon />
+                      {offert.price}
                     </div>
-                  )}
-                  {offert.amenities[1] && (
-                    <div>
-                      <Wifi /> WiFi
-                    </div>
-                  )}
-                  {offert.amenities[2] && (
-                    <div>
-                      <KitchenIcon /> Kitchen
-                    </div>
-                  )}
-                  {offert.amenities[3] && (
-                    <div>
-                      <LocalParkingIcon /> Parking space
-                    </div>
-                  )}
-                </CardContent>
-                <CardActions>
-                  <IconButton aria-label="add to favorites">
-                    <Checkbox
-                      icon={<FavoriteBorder />}
-                      checkedIcon={<Favorite />}
-                    />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </Paper>
+
+                    <Typography
+                      variant="body1"
+                      style={{ whiteSpace: "pre-line" }}
+                    >
+                      {offert.description}
+                    </Typography>
+                    <h3>Amenities</h3>
+                    {offert.amenities[0] && (
+                      <div>
+                        <AcUnitIcon /> Air Conditioning
+                      </div>
+                    )}
+                    {offert.amenities[1] && (
+                      <div>
+                        <Wifi /> WiFi
+                      </div>
+                    )}
+                    {offert.amenities[2] && (
+                      <div>
+                        <KitchenIcon /> Kitchen
+                      </div>
+                    )}
+                    {offert.amenities[3] && (
+                      <div>
+                        <LocalParkingIcon /> Parking space
+                      </div>
+                    )}
+                  </CardContent>
+                  <CardActions>
+                    <IconButton aria-label="add to favorites">
+                      <Checkbox
+                        icon={<FavoriteBorder />}
+                        checkedIcon={<Favorite />}
+                      />
+                    </IconButton>
+                  </CardActions>
+                </Card>
+              </Paper>
+            </div>
+            <div>
+              {" "}
+              <ReservationCard offert={offert} />
+              <div>
+                <h3>Host</h3>
+                <ProfileCard userID={offert.ownerID} />
+              </div>
+            </div>
           </div>
         )}
       </div>

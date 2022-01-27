@@ -1,14 +1,24 @@
-import { doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  doc,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
 import db from "../../firebase";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 export const useOffert = () => {
   const storage = getStorage();
+
   async function getOffertByID(id) {
     const docRef = doc(db, "offers", id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      return docSnap.data();
+      let offert = docSnap.data();
+      offert.offertID = id;
+      return offert;
     } else {
       console.log("Offert not found!");
       return "Offert not found!";
@@ -46,5 +56,22 @@ export const useOffert = () => {
     return url;
   }
 
-  return { getPictureURL, getOffertByID, getAvatar, getUserDetails };
+  async function searchByCity(city) {
+    const q = query(collection(db, "offers"), where("city", "==", "Białystok"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log("halo");
+      console.log(doc.id, " => ", doc.data());
+    });
+    console.log(city);
+  }
+
+  return {
+    getPictureURL,
+    getOffertByID,
+    getAvatar,
+    getUserDetails,
+    searchByCity,
+  };
 };

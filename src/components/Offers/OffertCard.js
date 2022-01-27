@@ -4,7 +4,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Box, Skeleton } from "@mui/material";
-// import { useOffert } from "../OffersManager";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
@@ -36,11 +35,13 @@ const OffertCard = (props) => {
         onClick={() => {
           showOffertDetails();
         }}
-        sx={{ maxWidth: 450 }}
+        sx={{ maxWidth: 480 }}
       >
         {state ? (
-          <Card sx={{ display: "flex", maxWidth: 450 }}>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Card sx={{ display: "flex", maxWidth: 480 }}>
+            <Box
+              sx={{ display: "flex", flexDirection: "column", maxHeight: 180 }}
+            >
               <CardContent sx={{ flex: "1 0 auto" }}>
                 <Typography component="div" variant="h6">
                   {offert.apartmentName}

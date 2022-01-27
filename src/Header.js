@@ -8,12 +8,16 @@ import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-
+import { useNavigate } from "react-router-dom";
+import PlacesAutocomplete from "react-places-autocomplete";
 function Header() {
-  const { currentUser, logout } = useAuth();
-  const { currentUserData, currentUserAvatarUrl } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+  const { currentUser, logout } = useAuth();
+  const { currentUserData, currentUserAvatarUrl } = useAuth();
+
+  const [address, setAddress] = useState("");
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,8 +29,26 @@ function Header() {
   async function handleLogout(e) {
     await logout();
   }
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
+  function handleSearch() {
+    var inputVal = document.getElementById("searchInput").value.toLowerCase();
+    if (inputVal === "") return;
+    navigate("/search/" + inputVal);
+    console.log(inputVal);
+  }
+  function handleEnter(e) {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  }
+  const handleSelect = async (value) => {
+    setAddress(value);
+  };
+
+  const searchOptions = {
+    types: ["(cities)"],
+  };
   return (
     <>
       {" "}
@@ -39,9 +61,49 @@ function Header() {
             alt=""
           />
         </Link>
-        <div className="header_center">
-          <input type="text"></input>
-          <SearchIcon />
+        <div>
+          <PlacesAutocomplete
+            value={address}
+            onChange={setAddress}
+            onSelect={handleSelect}
+            searchOptions={searchOptions}
+          >
+            {({
+              getInputProps,
+              suggestions,
+              getSuggestionItemProps,
+              loading,
+            }) => (
+              <div>
+                <div className="header_center">
+                  <input
+                    type="search"
+                    id="searchInput"
+                    onKeyDown={handleEnter}
+                    {...getInputProps({ placeholder: "Type address" })}
+                  ></input>
+                  <SearchIcon />
+                  <Button onClick={handleSearch}>Search</Button>
+                </div>
+                <div>
+                  {loading ? <div>...loading</div> : null}
+
+                  {suggestions.map((suggestion) => {
+                    console.log(suggestion);
+                    const style = {
+                      backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
+                    };
+
+                    return (
+                      <div {...getSuggestionItemProps(suggestion, { style })}>
+                        {suggestion.description}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </PlacesAutocomplete>
         </div>
         <div className="header_right">
           {currentUser ? (

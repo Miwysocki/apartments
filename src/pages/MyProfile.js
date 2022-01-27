@@ -3,6 +3,8 @@ import UserOffers from "../components/Offers/UserOffers";
 import ProfileCard from "../components/ProfileCard";
 import Header from "../Header";
 import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 
 const MyProfile = () => {
   const { currentUser } = useAuth();
@@ -23,6 +25,14 @@ const MyProfile = () => {
         <h3>My offers</h3>
 
         <UserOffers userID={currentUser.uid} />
+        <Button
+          component={Link}
+          to="/host-place"
+          variant="contained"
+          color="primary"
+        >
+          Create new offert
+        </Button>
       </div>
     </div>
   );

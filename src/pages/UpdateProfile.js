@@ -84,6 +84,9 @@ export default function UpdateProfile() {
             <Typography component="h1" variant="h5">
               Update your informations
             </Typography>
+            <Typography variant="subtitle">
+              If you don't want to change - leave blank
+            </Typography>
             <h3 id="message" style={{ color: "red" }}>
               {errorMessage}
             </h3>

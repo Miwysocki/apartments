@@ -12,6 +12,7 @@ import UpdateProfile from "./pages/UpdateProfile";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import OffertForm from "./form/OffertForm";
+import Search from "./pages/Search";
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -23,6 +24,7 @@ function App() {
             <Route exact path="/sign-up" element={<SignUp />} />
             <Route exact path="/forgot-password" element={<ForgotPassword />} />
             <Route exact path="/room/:id" element={<Details />} />
+            <Route exact path="/search/:searchedPhrase" element={<Search />} />
             <Route element={<PrivateRoute />}>
               <Route path="/my-profile" element={<MyProfile />} />
               <Route path="/updateProfile" element={<UpdateProfile />} />
