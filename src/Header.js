@@ -29,21 +29,16 @@ function Header() {
   async function handleLogout(e) {
     await logout();
   }
-  // useEffect(() => {}, []);
 
-  function handleSearch() {
-    var inputVal = document.getElementById("searchInput").value.toLowerCase();
-    if (inputVal === "") return;
-    navigate("/search/" + inputVal);
-    console.log(inputVal);
+  function handleSearch(value) {
+    // var inputVal = document.getElementById("searchInput").value.toLowerCase();
+    // if (inputVal === "") return;
+    navigate("/search/" + value);
   }
-  function handleEnter(e) {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  }
+
   const handleSelect = async (value) => {
     setAddress(value);
+    handleSearch(value);
   };
 
   const searchOptions = {
@@ -79,17 +74,16 @@ function Header() {
                   <input
                     type="search"
                     id="searchInput"
-                    onKeyDown={handleEnter}
+                    // onKeyDown={handleEnter}
                     {...getInputProps({ placeholder: "Type address" })}
                   ></input>
                   <SearchIcon />
-                  <Button onClick={handleSearch}>Search</Button>
+                  {/* <Button onClick={handleSearch}>Search</Button> */}
                 </div>
                 <div>
                   {loading ? <div>...loading</div> : null}
 
                   {suggestions.map((suggestion) => {
-                    console.log(suggestion);
                     const style = {
                       backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
                     };

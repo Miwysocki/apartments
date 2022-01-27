@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import db from "../../firebase";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import OffertCard from "./OffertCard";
 export const useOffert = () => {
   const storage = getStorage();
 
@@ -57,14 +58,27 @@ export const useOffert = () => {
   }
 
   async function searchByCity(city) {
-    const q = query(collection(db, "offers"), where("city", "==", "Białystok"));
+    let offers = [];
+    const q = query(collection(db, "offers"), where("city", "==", city));
     const querySnapshot = await getDocs(q);
+    // return querySnapshot;
+
     querySnapshot.forEach((doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      console.log("halo");
-      console.log(doc.id, " => ", doc.data());
+      offers.push(doc.data());
+      offers[offers.length - 1].offertID = doc.id;
     });
-    console.log(city);
+    return offers;
+  }
+
+  function listOffers(offers) {
+    const offersListed = offers.map((data, id) => {
+      return (
+        <div key={id}>
+          <OffertCard offert={data} />
+        </div>
+      );
+    });
+    return offersListed;
   }
 
   return {
@@ -73,5 +87,6 @@ export const useOffert = () => {
     getAvatar,
     getUserDetails,
     searchByCity,
+    listOffers,
   };
 };
