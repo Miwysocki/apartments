@@ -1,6 +1,7 @@
 .ofert {
   display: grid;
   padding: 1rem;
+  width: 30px;
 }
 
 .ofert > img:hover {

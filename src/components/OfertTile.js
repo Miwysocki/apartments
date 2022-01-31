@@ -1,43 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../style/OfertTile.css";
-import { Grid } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
-import Content from "../Content.js";
-import { Link } from "react-router-dom";
 
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import { collection, query, getDocs, orderBy, limit } from "firebase/firestore";
+import db from "../firebase";
+import OffertCard from "./Offers/OffertCard";
 
 const OfertTile = (props) => {
+  const [offersListed, setOffersListed] = useState();
+  const offersRef = collection(db, "offers");
+  const q = query(offersRef, orderBy("price"), limit(3));
+
+  useEffect(() => {
+    mapOffers();
+  }, []);
+
+  async function getOffers() {
+    const querySnapshot = await getDocs(q);
+    let offers = [];
+    querySnapshot.forEach((doc) => {
+      offers.push(doc.data());
+      offers[offers.length - 1].offertID = doc.id;
+    });
+    return offers;
+  }
+
+  async function mapOffers() {
+    const offers = await getOffers();
+    const offersListed = offers.map((data, id) => {
+      return (
+        <div key={id}>
+          <OffertCard offert={data} isVertical={true} />
+        </div>
+      );
+    });
+    setOffersListed(offersListed);
+  }
+
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "space-evenly" }}>
       {" "}
-      <Grid container spacing={3}>
-        {Content.map((e) => {
-          return (
-            <div className="ofert" key={e.id}>
-              <Grid>
-                <Item>
-                  <div className="ofert">
-                    {" "}
-                    <Link to={`/room/${e.id}`}>
-                      <img src={e.img} alt="" />
-                    </Link>{" "}
-                    <p>{e.title}</p>
-                    <p>{e.city}</p>
-                    <p>{e.price}$</p>
-                  </div>
-                </Item>
-              </Grid>
-            </div>
-          );
-        })}
-      </Grid>
+      {offersListed}
     </div>
   );
 };

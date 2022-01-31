@@ -6,10 +6,22 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea, Box, Skeleton } from "@mui/material";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import { Link } from "react-router-dom";
+
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  padding: 4,
+}));
 
 const OffertCard = (props) => {
   const navigate = useNavigate();
   const offert = props.offert;
+  const isVertical = props.isVertical;
   const storage = getStorage();
   const [state, setstate] = useState();
 
@@ -27,6 +39,24 @@ const OffertCard = (props) => {
 
   function showOffertDetails() {
     navigate("/room/" + offert.offertID);
+  }
+
+  if (isVertical) {
+    return (
+      <div>
+        <Item>
+          <div style={{ width: 250, height: 350 }}>
+            {" "}
+            <Link to={`/room/${offert.offertID}`}>
+              <img width={250} src={state} alt="" />
+            </Link>{" "}
+            <p>{offert.apartmentName}</p>
+            <p>{offert.city}</p>
+            <p>{offert.price}$</p>
+          </div>
+        </Item>
+      </div>
+    );
   }
 
   return (
