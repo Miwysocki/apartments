@@ -60,7 +60,7 @@ const OffertCard = (props) => {
               component="img"
               sx={{ maxWidth: 250, marginLeft: 5, maxHeight: 150 }}
               image={state}
-              alt="Live from space album cover"
+              alt=""
             />
           </Card>
         ) : (

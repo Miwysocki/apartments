@@ -42,28 +42,7 @@ export class DetailsForm extends Component {
   }
 
   handlecheck(event) {
-    // let amenity = event.target.value;
-    // if (event.target.checked) {
-    //   console.log("dodanie " + amenity);
-    //   this.setState({
-    //     amenities: [...this.state.amenities, event.target.value],
-    //   });
-    // } else {
-    //   let index = this.state.amenities.indexOf(amenity);
-    //   if (index !== -1) {
-    //     this.state.amenities.splice(index, 1);
-    //   }
-    // }
-    // let am = this.state.amenities;
-    // am[event.target.value] = !am[event.target.value];
-    // this.setState({
-    //   amenities: am,
-    // });
-    console.log("halooo value " + event.target.value);
     this.props.handleAmenities(event.target.value);
-    // console.log("e  " + event.target.value);
-    // console.log("amen  " + this.state.amenities);
-    // this.props.handleAmenities(this.state.amenities);
   }
 
   render() {

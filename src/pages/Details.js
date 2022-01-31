@@ -81,7 +81,7 @@ const Details = () => {
               color="text.secondary"
               component="div"
             >
-              {offert.country}, {offert.city}
+              {offert.country}, {offert.city}, {offert.address}
             </Typography>
           </div>
         )}
