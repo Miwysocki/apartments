@@ -6,6 +6,20 @@
   margin-top: 10px;
   border: none;
 }
+
+.autocomplete-dropdown-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  width: 500px;
+  z-index: 1000;
+  top: 0px !important;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

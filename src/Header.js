@@ -31,8 +31,6 @@ function Header() {
   }
 
   function handleSearch(value) {
-    // var inputVal = document.getElementById("searchInput").value.toLowerCase();
-    // if (inputVal === "") return;
     navigate("/search/" + value);
   }
 
@@ -43,6 +41,20 @@ function Header() {
 
   const searchOptions = {
     types: ["(cities)"],
+  };
+
+  const myStyles = {
+    root: { position: "absolute" },
+    input: { width: "100%" },
+    autocompleteContainer: {
+      position: "absolute",
+      top: "100%",
+      backgroundColor: "white",
+      border: "1px solid #555555",
+      width: "100%",
+    },
+    autocompleteItem: { color: "black" },
+    autocompleteItemActive: { color: "blue" },
   };
   return (
     <>
@@ -56,12 +68,13 @@ function Header() {
             alt=""
           />
         </Link>
-        <div>
+        <div className="autocomplete-dropdown-container">
           <PlacesAutocomplete
             value={address}
             onChange={setAddress}
             onSelect={handleSelect}
             searchOptions={searchOptions}
+            styles={myStyles}
           >
             {({
               getInputProps,
