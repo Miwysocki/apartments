@@ -98,7 +98,7 @@ function Header() {
 
                   {suggestions.map((suggestion) => {
                     const style = {
-                      backgroundColor: suggestion.active ? "#41b6e6" : "#fff",
+                      backgroundColor: suggestion.active ? "#eb8934" : "#fff",
                     };
 
                     return (

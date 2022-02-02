@@ -27,7 +27,7 @@ const OffertCard = (props) => {
 
   useEffect(() => {
     getThumbnail();
-  }, []);
+  }, [offert]);
 
   function getThumbnail() {
     getDownloadURL(ref(storage, "ofertImages/" + offert.photosURL[0]))
@@ -45,7 +45,7 @@ const OffertCard = (props) => {
     return (
       <div>
         <Item>
-          <div style={{ width: 250, height: 350 }}>
+          <div key={offert.offertID} style={{ width: 250, height: 350 }}>
             {" "}
             <Link to={`/room/${offert.offertID}`}>
               <img width={250} src={state} alt="" />
@@ -81,7 +81,7 @@ const OffertCard = (props) => {
                   color="text.secondary"
                   component="div"
                 >
-                  {offert.guests} guests {offert.rooms} rooms
+                  {offert.guests} guests {offert.rooms} rooms {offert.price}$
                 </Typography>
                 <Typography>{offert.description}</Typography>
               </CardContent>

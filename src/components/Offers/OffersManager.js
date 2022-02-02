@@ -70,7 +70,11 @@ export const useOffert = () => {
     return offers;
   }
 
-  function listOffers(offers) {
+  function listOffers(offers, sorting = "") {
+    offers.sort(function (a, b) {
+      if (sorting === "price:ascending") return a.price - b.price;
+      else if (sorting === "price:descending") return b.price - a.price;
+    });
     const offersListed = offers.map((data, id) => {
       return (
         <div key={id}>

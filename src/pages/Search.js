@@ -5,6 +5,15 @@ import "../style/Basic.css";
 import { useOffert } from "../components/Offers/OffersManager";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Slider from "@mui/material/Slider";
+import { Box, Grid, Typography } from "@mui/material";
+import PaidIcon from "@mui/icons-material/Paid";
+import Paid from "@mui/icons-material/Paid";
 const Search = () => {
   const { searchedPhrase } = useParams();
   const { searchByCity, listOffers } = useOffert();
@@ -15,22 +24,52 @@ const Search = () => {
   const [mapPosition, setMapPosition] = useState();
   const [markers, setMarkers] = useState();
   const navigate = useNavigate();
+  const [sorting, setSorting] = useState("");
+  const [maxPrice, setMaxPrice] = useState();
+  const [priceFilter, setPriceFilter] = useState([0, 500]);
 
   useEffect(() => {
     init();
-    centerMap();
-  }, [searchedPhrase]);
+    // centerMap();
+  }, [searchedPhrase]); //////////teeeeeeeeeeeeeeeeeeeeeeeests
 
   useEffect(() => {
-    if (offers) listMarkers();
-  }, [offers]);
+    // if (offers) listMarkers();
+  }, []);
+
+  useEffect(() => {
+    if (!offers) return;
+    //filter price
+    const minPrice = priceFilter[0];
+    const maxPrice = priceFilter[1];
+    const filteredOffers = offers.filter(function (el) {
+      return el.price >= minPrice && el.price <= maxPrice;
+    });
+    let list = listOffers(filteredOffers, sorting);
+    setListedOffers(list);
+  }, [sorting, priceFilter]);
+
+  useEffect(() => {
+    // if (offers) listMarkers();
+  }, []);
 
   async function init() {
     const offers = await searchByCity(searchedCity);
     setOffers(offers);
     let list = listOffers(offers);
     setListedOffers(list);
+    //setting max price for filters
+    const maxPrice = Math.max.apply(
+      Math,
+      offers.map(function (o) {
+        return o.price;
+      })
+    );
+    setMaxPrice(maxPrice);
+    let pr = [0, maxPrice];
+    setPriceFilter(pr);
   }
+
   async function centerMap() {
     const mapPos = await geocode(searchedPhrase);
     setMapPosition(mapPos);
@@ -70,6 +109,18 @@ const Search = () => {
     setMarkers(markers);
   }
 
+  const handleSorting = (event) => {
+    setSorting(event.target.value);
+  };
+
+  const handleSlider = (event, newValue) => {
+    setPriceFilter(newValue);
+    // console.log("priceFilter:", priceFilter);
+  };
+  // function priceText(value) {
+  //   return `${value}$`;
+  // }
+
   const MapWithAMarker = withGoogleMap((props) => (
     <GoogleMap
       defaultZoom={14}
@@ -83,15 +134,56 @@ const Search = () => {
     <div>
       <Header />
       <br /> <br />
+      <br />
+      <div>
+        {/* <span>halo</span> */}
+        {/* <Box sx={{ width: 300 }}> */} {/* </Box> */}
+        <Grid container marginTop={2} spacing={1}>
+          <Grid item xs={2}>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel id="">Sort by</InputLabel>
+              <Select
+                labelId=""
+                id=""
+                value={sorting}
+                label="Sort by"
+                onChange={handleSorting}
+              >
+                {/* <MenuItem value="">
+              <em>None</em>
+            </MenuItem> */}
+                <MenuItem value={"price:ascending"}>Price: ascending</MenuItem>
+                <MenuItem value={"price:descending"}>
+                  Price: descending
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={2}>
+            <Typography id="input-slider" gutterBottom>
+              Price
+            </Typography>
+            <Slider
+              max={maxPrice}
+              getAriaLabel={() => "Minimum distance"}
+              value={priceFilter}
+              onChange={handleSlider}
+              valueLabelDisplay="auto"
+              disableSwap
+            />
+          </Grid>
+        </Grid>
+      </div>
       <div>
         <div>{listedOffers && listedOffers}</div>
         <div>
-          {mapPosition && (
+          {/* {mapPosition && (
             <MapWithAMarker
               containerElement={<div style={{ height: `400px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
             />
-          )}
+          )} */}
         </div>
       </div>
     </div>
