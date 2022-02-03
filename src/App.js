@@ -13,6 +13,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import OffertForm from "./form/OffertForm";
 import Search from "./pages/Search";
+import Reservation from "./pages/Reservation";
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -29,6 +30,7 @@ function App() {
               <Route path="/my-profile" element={<MyProfile />} />
               <Route path="/updateProfile" element={<UpdateProfile />} />
               <Route path="/host-place" element={<OffertForm />} />
+              <Route path="/reservation/:id" element={<Reservation />} />
             </Route>
           </Routes>
         </Router>

@@ -11,6 +11,8 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Rating } from "@mui/material";
+import { useReservation } from "./ReservationManager.js";
 
 const ReservationCard = (props) => {
   const { offert } = props;
@@ -19,6 +21,7 @@ const ReservationCard = (props) => {
   const [confirmation, setConfirmation] = useState(false);
   const [reservation, setReservation] = useState({});
   const { currentUser } = useAuth();
+  const { saveReservation } = useReservation();
   function datediff(first, second) {
     return Math.round((second - first) / (1000 * 60 * 60 * 24));
   }
@@ -31,6 +34,10 @@ const ReservationCard = (props) => {
       reservation.offertID = offert.offertID;
       reservation.clientID = currentUser.uid;
       reservation.dates = value;
+      reservation.address = offert.city + ", " + offert.address;
+      saveReservation(reservation);
+
+      navigate("/my-profile");
     }
     //display to confirm
     reservation.price = getTotalPrice();
@@ -49,8 +56,15 @@ const ReservationCard = (props) => {
                 //   color="text.secondary"
                 gutterBottom
               >
-                {offert.price}$ / night ra
+                {offert.price}$ / night{" "}
+                <Rating
+                  style={{ position: "relative", left: "50px" }}
+                  name="read-only"
+                  value={offert.rating}
+                  readOnly
+                />
               </Typography>
+
               <Typography gutterBottom variant="h5" component="div">
                 {confirmation ? "Your reservation:" : "Make Reservation"}
                 <br />

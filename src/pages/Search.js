@@ -14,6 +14,7 @@ import Slider from "@mui/material/Slider";
 import { Box, Grid, Typography } from "@mui/material";
 import PaidIcon from "@mui/icons-material/Paid";
 import Paid from "@mui/icons-material/Paid";
+import { width } from "@mui/system";
 const Search = () => {
   const { searchedPhrase } = useParams();
   const { searchByCity, listOffers } = useOffert();
@@ -30,11 +31,11 @@ const Search = () => {
 
   useEffect(() => {
     init();
-    // centerMap();
-  }, [searchedPhrase]); //////////teeeeeeeeeeeeeeeeeeeeeeeests
+    centerMap();
+  }, [searchedPhrase]);
 
   useEffect(() => {
-    // if (offers) listMarkers();
+    if (offers) listMarkers();
   }, []);
 
   useEffect(() => {
@@ -48,10 +49,6 @@ const Search = () => {
     let list = listOffers(filteredOffers, sorting);
     setListedOffers(list);
   }, [sorting, priceFilter]);
-
-  useEffect(() => {
-    // if (offers) listMarkers();
-  }, []);
 
   async function init() {
     const offers = await searchByCity(searchedCity);
@@ -115,15 +112,11 @@ const Search = () => {
 
   const handleSlider = (event, newValue) => {
     setPriceFilter(newValue);
-    // console.log("priceFilter:", priceFilter);
   };
-  // function priceText(value) {
-  //   return `${value}$`;
-  // }
 
   const MapWithAMarker = withGoogleMap((props) => (
     <GoogleMap
-      defaultZoom={14}
+      defaultZoom={12}
       defaultCenter={{ lat: mapPosition.lat, lng: mapPosition.lng }}
     >
       {markers}
@@ -136,8 +129,6 @@ const Search = () => {
       <br /> <br />
       <br />
       <div>
-        {/* <span>halo</span> */}
-        {/* <Box sx={{ width: 300 }}> */} {/* </Box> */}
         <Grid container marginTop={2} spacing={1}>
           <Grid item xs={2}>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -177,13 +168,24 @@ const Search = () => {
       </div>
       <div>
         <div>{listedOffers && listedOffers}</div>
-        <div>
-          {/* {mapPosition && (
+        <div style={{}}>
+          {mapPosition && (
             <MapWithAMarker
-              containerElement={<div style={{ height: `400px` }} />}
+              containerElement={
+                <div
+                  style={{
+                    position: "fixed",
+                    right: 30,
+                    top: 180,
+
+                    height: `60vh`,
+                    width: "55vw",
+                  }}
+                />
+              }
               mapElement={<div style={{ height: `100%` }} />}
             />
-          )} */}
+          )}
         </div>
       </div>
     </div>

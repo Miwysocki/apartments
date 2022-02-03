@@ -23,7 +23,7 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import Wifi from "@mui/icons-material/Wifi";
 import KitchenIcon from "@mui/icons-material/Kitchen";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
-import ReservationCard from "../components/Offers/ReservationCard";
+import MakeReservationCard from "../components/Reservation/MakeReservationCard";
 
 const Details = () => {
   const { id } = useParams();
@@ -184,7 +184,7 @@ const Details = () => {
             </div>
             <div>
               {" "}
-              <ReservationCard offert={offert} />
+              <MakeReservationCard offert={offert} />
               <div>
                 <h3>Host</h3>
                 <ProfileCard userID={offert.ownerID} />

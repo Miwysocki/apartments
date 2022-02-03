@@ -5,9 +5,11 @@ import Header from "../Header";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
+import UserReservations from "../components/Reservation/UserReservations";
 
 const MyProfile = () => {
   const { currentUser } = useAuth();
+
   return (
     <div>
       <div>
@@ -33,6 +35,12 @@ const MyProfile = () => {
         >
           Create new offert
         </Button>
+        <br />
+        <br />
+        <div>
+          <h3>My reservations</h3>
+          <UserReservations userID={currentUser.uid} />
+        </div>
       </div>
     </div>
   );
