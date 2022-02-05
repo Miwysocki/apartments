@@ -11,8 +11,8 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Rating } from "@mui/material";
 import { useReservation } from "./ReservationManager.js";
+import { Alert } from "@mui/material";
 
 const ReservationCard = (props) => {
   const { offert } = props;
@@ -23,6 +23,8 @@ const ReservationCard = (props) => {
   const { currentUser } = useAuth();
   const { saveReservation, getAllReservedDates } = useReservation();
   const [bookedDates, setBookedDates] = useState();
+  const [errorMessage, setErrorMessage] = useState();
+
   function datediff(first, second) {
     return Math.round((second - first) / (1000 * 60 * 60 * 24));
   }
@@ -40,6 +42,16 @@ const ReservationCard = (props) => {
 
       navigate("/my-profile");
     }
+
+    //chceck if booked dates not being reserved
+    const startDate = value[0];
+    const endDate = value[1];
+    for (var e of bookedDates) {
+      if (e > startDate && e < endDate) {
+        setErrorMessage("You picked already booked dates!");
+        return;
+      }
+    }
     //display to confirm
     reservation.price = getTotalPrice();
     setReservation(reservation);
@@ -54,6 +66,10 @@ const ReservationCard = (props) => {
     init();
   }, []);
 
+  useEffect(() => {
+    setErrorMessage("");
+  }, [value]);
+
   function disableBookedDates(date) {
     let reservedData =
       date.getTime() === new Date("2022-02-07T00:00").getTime();
@@ -63,7 +79,6 @@ const ReservationCard = (props) => {
     }
     return reservedData;
   }
-  function a(date) {}
 
   if (currentUser && currentUser.uid === offert.ownerID) return <></>;
   if (currentUser)
@@ -112,6 +127,9 @@ const ReservationCard = (props) => {
                       </React.Fragment>
                     )}
                   />
+                  {errorMessage && (
+                    <Alert severity="error">{errorMessage}</Alert>
+                  )}
 
                   <Typography variant="h6" component="div">
                     <br />

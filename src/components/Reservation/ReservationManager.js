@@ -64,13 +64,7 @@ export const useReservation = () => {
 
   async function getAllReservedDates(offerID) {
     const reservations = await getReservations(offerID);
-    console.log("reservations tuu:", reservations);
 
-    // reservations.forEach(getBooked);
-
-    // function getBooked(item, index, arr) {
-    //   console.log("forea :", item);
-    // }
     let booked = [];
     for (const res of reservations) {
       const startDate = res.dates[0].toDate();
