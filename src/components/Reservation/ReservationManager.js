@@ -35,9 +35,60 @@ export const useReservation = () => {
     await deleteDoc(doc(db, "reservations", id));
   }
   async function saveReview(rev) {
-    console.log("rev:", rev);
     await addDoc(collection(db, "reviews"), rev);
   }
 
-  return { saveReservation, getReservationByID, deleteReservation, saveReview };
+  async function getReviews(offerID) {
+    const reviewRef = collection(db, "reviews");
+
+    const q = query(reviewRef, where("offertID", "==", offerID));
+    const querySnapshot = await getDocs(q);
+    const reviews = [];
+    querySnapshot.forEach((doc) => {
+      reviews.push(doc.data());
+    });
+    return reviews;
+  }
+
+  async function getReservations(offertID) {
+    const reservationsRef = collection(db, "reservations");
+    const q = query(reservationsRef, where("offertID", "==", offertID));
+    const querySnapshot = await getDocs(q);
+    const reservations = [];
+    querySnapshot.forEach((doc) => {
+      reservations.push(doc.data());
+    });
+    // console.log("reservations w getRese:", reservations);
+    return reservations;
+  }
+
+  async function getAllReservedDates(offerID) {
+    const reservations = await getReservations(offerID);
+    console.log("reservations tuu:", reservations);
+
+    // reservations.forEach(getBooked);
+
+    // function getBooked(item, index, arr) {
+    //   console.log("forea :", item);
+    // }
+    let booked = [];
+    for (const res of reservations) {
+      const startDate = res.dates[0].toDate();
+      const endDate = res.dates[1].toDate();
+      for (var d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+        const day = new Date(d);
+        booked.push(day);
+      }
+    }
+    return booked;
+  }
+
+  return {
+    saveReservation,
+    getReservationByID,
+    deleteReservation,
+    saveReview,
+    getReviews,
+    getAllReservedDates,
+  };
 };

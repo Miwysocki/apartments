@@ -15,10 +15,27 @@ export const useOffert = () => {
   async function getOffertByID(id) {
     const docRef = doc(db, "offers", id);
     const docSnap = await getDoc(docRef);
+    const reviewRef = collection(db, "reviews");
 
     if (docSnap.exists()) {
       let offert = docSnap.data();
       offert.offertID = id;
+      //offert rating
+      const q = query(reviewRef, where("offertID", "==", offert.offertID));
+      const querySnapshot = await getDocs(q);
+      offert.reviews = [];
+      const rating = [];
+
+      querySnapshot.forEach((rev) => {
+        rating.push(rev.data().rating);
+        offert.reviews.push(rev.id);
+      });
+
+      const average = (rating) =>
+        rating.reduce((a, b) => a + b, 0) / rating.length;
+      const averageRating = average(rating).toFixed(2);
+      offert.averageRating = averageRating;
+
       return offert;
     } else {
       console.log("Offert not found!");

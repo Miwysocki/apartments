@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -21,7 +21,8 @@ const ReservationCard = (props) => {
   const [confirmation, setConfirmation] = useState(false);
   const [reservation, setReservation] = useState({});
   const { currentUser } = useAuth();
-  const { saveReservation } = useReservation();
+  const { saveReservation, getAllReservedDates } = useReservation();
+  const [bookedDates, setBookedDates] = useState();
   function datediff(first, second) {
     return Math.round((second - first) / (1000 * 60 * 60 * 24));
   }
@@ -44,6 +45,26 @@ const ReservationCard = (props) => {
     setReservation(reservation);
     setConfirmation(true);
   }
+
+  async function init() {
+    const booked = await getAllReservedDates(offert.offertID);
+    setBookedDates(booked);
+  }
+  useEffect(() => {
+    init();
+  }, []);
+
+  function disableBookedDates(date) {
+    let reservedData =
+      date.getTime() === new Date("2022-02-07T00:00").getTime();
+
+    for (const d of bookedDates) {
+      reservedData += date.getTime() === d.getTime();
+    }
+    return reservedData;
+  }
+  function a(date) {}
+
   if (currentUser && currentUser.uid === offert.ownerID) return <></>;
   if (currentUser)
     return (
@@ -57,12 +78,6 @@ const ReservationCard = (props) => {
                 gutterBottom
               >
                 {offert.price}$ / night{" "}
-                <Rating
-                  style={{ position: "relative", left: "50px" }}
-                  name="read-only"
-                  value={offert.rating}
-                  readOnly
-                />
               </Typography>
 
               <Typography gutterBottom variant="h5" component="div">
@@ -81,6 +96,7 @@ const ReservationCard = (props) => {
               ) : (
                 <div>
                   <DateRangePicker
+                    shouldDisableDate={disableBookedDates}
                     disablePast
                     startText="Check-in"
                     endText="Check-out"

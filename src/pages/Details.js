@@ -3,14 +3,20 @@ import { Link, useParams } from "react-router-dom";
 import Header from "../Header";
 import { useOffert } from "../components/Offers/OffersManager";
 import {
+  Button,
   Card,
   CardActions,
   CardContent,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   ImageList,
   ImageListItem,
   Paper,
+  Rating,
   Typography,
 } from "@mui/material";
 import HotelIcon from "@mui/icons-material/Hotel";
@@ -24,21 +30,36 @@ import Wifi from "@mui/icons-material/Wifi";
 import KitchenIcon from "@mui/icons-material/Kitchen";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import MakeReservationCard from "../components/Reservation/MakeReservationCard";
+import { useReservation } from "../components/Reservation/ReservationManager";
 
 const Details = () => {
   const { id } = useParams();
   const { getOffertByID, getPictureURL } = useOffert();
+  const { getReviews } = useReservation();
   const [offert, setOffert] = useState();
   const [photos, setPhotos] = useState();
+  const [openReviews, setOpenReviews] = useState(false);
+  const [reviews, setReviews] = useState();
 
   useEffect(() => {
     init();
     getPhotos();
   }, []);
 
+  useEffect(() => {
+    if (offert) showReviews();
+  }, [openReviews]);
+
+  async function showReviews() {
+    const reviews = await getReviews(offert.offertID);
+    setReviews(reviews);
+  }
+
   async function init() {
     const offert = await getOffertByID(id);
     setOffert(offert);
+    console.log("offert:", offert);
+
     return offert;
   }
 
@@ -140,7 +161,26 @@ const Details = () => {
                       &nbsp; &nbsp;Rooms {offert.rooms} &nbsp;&nbsp;{" · "}{" "}
                       &nbsp;&nbsp;
                       <AttachMoneyIcon />
-                      {offert.price}
+                      {offert.price} &nbsp;&nbsp;
+                      <div>
+                        {" "}
+                        <Rating
+                          style={{ position: "relative", left: "50px" }}
+                          value={offert.averageRating}
+                          readOnly
+                        />{" "}
+                        <Link
+                          style={{ marginLeft: 45 }}
+                          to=""
+                          onClick={() => {
+                            setOpenReviews(true);
+                          }}
+                        >
+                          {" "}
+                          ({offert.reviews.length})reviews
+                        </Link>
+                      </div>
+                      {"   "}
                     </div>
 
                     <Typography
@@ -193,6 +233,40 @@ const Details = () => {
           </div>
         )}
       </div>
+
+      <Dialog
+        open={openReviews}
+        onClose={"a"}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        onBackdropClick={() => {
+          setOpenReviews(false);
+        }}
+      >
+        <DialogActions>
+          <Button
+            onClick={() => {
+              setOpenReviews(false);
+            }}
+            autoFocus
+          >
+            Close
+          </Button>
+        </DialogActions>
+        <DialogTitle id="alert-dialog-title">{"Apartment reviews"}</DialogTitle>
+        <DialogContent>
+          {reviews &&
+            reviews.map((rev) => (
+              <div>
+                <Card sx={{ minWidth: 275, maxWidth: 600 }}>
+                  <Rating readOnly value={rev.rating} /> <br /> {rev.opinion}{" "}
+                </Card>
+                <br />
+                <br />
+              </div>
+            ))}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

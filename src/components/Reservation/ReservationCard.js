@@ -10,10 +10,6 @@ const ReservationCard = (props) => {
   const endDate = reservation.dates[1].toDate();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("reservation:", reservation);
-  }, []);
-
   function showReservationDetails(id) {
     navigate("/reservation/" + id);
   }
