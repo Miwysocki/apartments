@@ -8,7 +8,12 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import db from "../../firebase";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import OffertCard from "./OffertCard";
 export const useOffert = () => {
   const storage = getStorage();
@@ -103,8 +108,21 @@ export const useOffert = () => {
     return offersListed;
   }
 
-  async function deleteOffert(offertID) {
-    await deleteDoc(doc(db, "offers", offertID));
+  async function deleteOffert(offert) {
+    console.log("offert delete:", offert);
+    //delete photos
+    for (const url of offert.photosURL) {
+      const photoRef = ref(storage, "ofertImages/" + url);
+      deleteObject(photoRef)
+        .then(() => {
+          console.log("photo deleted " + url);
+        })
+        .catch((error) => {
+          console.log("photo not deleted:", error);
+        });
+    }
+
+    await deleteDoc(doc(db, "offers", offert.offertID));
   }
 
   return {

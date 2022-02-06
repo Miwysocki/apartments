@@ -38,7 +38,7 @@ const DeleteOffert = (props) => {
   }
 
   const handleDelete = () => {
-    deleteOffert(offert.offertID);
+    deleteOffert(offert);
     navigate("/my-profile");
   };
 
