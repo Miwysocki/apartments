@@ -7,6 +7,7 @@ import {
   getDoc,
   getDocs,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import db from "../../firebase";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
@@ -77,6 +78,13 @@ export const useReservation = () => {
     return booked;
   }
 
+  async function archiveReservation(reservationID) {
+    const washingtonRef = doc(db, "reservations", reservationID);
+    await updateDoc(washingtonRef, {
+      archived: true,
+    });
+  }
+
   return {
     saveReservation,
     getReservationByID,
@@ -84,5 +92,7 @@ export const useReservation = () => {
     saveReview,
     getReviews,
     getAllReservedDates,
+    archiveReservation,
+    getReservations,
   };
 };

@@ -43,6 +43,7 @@ const ReservationCard = (props) => {
             </Box>
           </Card>
         </CardActionArea>
+        <br />
       </div>
     </div>
   );

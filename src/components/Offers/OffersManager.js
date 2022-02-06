@@ -5,6 +5,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 import db from "../../firebase";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
@@ -102,6 +103,10 @@ export const useOffert = () => {
     return offersListed;
   }
 
+  async function deleteOffert(offertID) {
+    await deleteDoc(doc(db, "offers", offertID));
+  }
+
   return {
     getPictureURL,
     getOffertByID,
@@ -109,5 +114,6 @@ export const useOffert = () => {
     getUserDetails,
     searchByCity,
     listOffers,
+    deleteOffert,
   };
 };

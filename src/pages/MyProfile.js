@@ -35,12 +35,14 @@ const MyProfile = () => {
         >
           Create new offert
         </Button>
+
         <br />
         <br />
         <div>
           <h3>My reservations</h3>
           <UserReservations userID={currentUser.uid} />
         </div>
+        <br />
       </div>
     </div>
   );

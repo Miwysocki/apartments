@@ -31,9 +31,12 @@ import KitchenIcon from "@mui/icons-material/Kitchen";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 import MakeReservationCard from "../components/Reservation/MakeReservationCard";
 import { useReservation } from "../components/Reservation/ReservationManager";
+import { useAuth } from "../contexts/AuthContext";
+import DeleteOffert from "../components/Offers/DeleteOffert";
 
 const Details = () => {
   const { id } = useParams();
+  const { currentUser } = useAuth();
   const { getOffertByID, getPictureURL } = useOffert();
   const { getReviews } = useReservation();
   const [offert, setOffert] = useState();
@@ -222,6 +225,11 @@ const Details = () => {
                 </Card>
               </Paper>
             </div>
+            {currentUser && currentUser.uid === offert.ownerID ? (
+              <DeleteOffert offert={offert} />
+            ) : (
+              ""
+            )}
             <div>
               {" "}
               <MakeReservationCard offert={offert} />

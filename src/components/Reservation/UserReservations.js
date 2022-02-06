@@ -24,13 +24,18 @@ const UserReservations = (props) => {
 
   async function mapReservations() {
     const reservations = await getReservations();
+    const archivedReservations = [];
     const reservationsListed = reservations.map((reservation, id) => {
-      const startDate = reservation.dates[0].toDate();
-      const endDate = reservation.dates[1].toDate();
-
-      return <ReservationCard reservation={reservation} />;
+      if (reservation.archived)
+        archivedReservations.push(
+          <ReservationCard reservation={reservation} />
+        );
+      else return <ReservationCard reservation={reservation} />;
     });
-    setReservations(reservationsListed);
+    reservationsListed.push(<h3>History</h3>);
+    const mergeReservations = [...reservationsListed, ...archivedReservations];
+
+    setReservations(mergeReservations);
   }
 
   async function getReservations() {

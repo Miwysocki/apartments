@@ -80,7 +80,7 @@ const ReservationCard = (props) => {
     return reservedData;
   }
 
-  if (currentUser && currentUser.uid === offert.ownerID) return <></>;
+  if (currentUser && currentUser.uid === offert.ownerID) return <div></div>;
   if (currentUser)
     return (
       <div>

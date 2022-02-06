@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useReservation } from "../components/Reservation/ReservationManager";
-import { Box, Button, Rating, Skeleton, TextField } from "@mui/material";
+import { Alert, Box, Button, Rating, Skeleton, TextField } from "@mui/material";
 import Header from "../Header";
 import { useOffert } from "../components/Offers/OffersManager";
 import OffertCard from "../components/Offers/OffertCard";
@@ -16,8 +16,12 @@ import { useNavigate } from "react-router-dom";
 
 const Reservation = () => {
   const { id } = useParams();
-  const { getReservationByID, deleteReservation, saveReview } =
-    useReservation();
+  const {
+    getReservationByID,
+    deleteReservation,
+    saveReview,
+    archiveReservation,
+  } = useReservation();
   const { getOffertByID } = useOffert();
   const [reservation, setReservation] = useState();
   const [offert, setOffert] = useState();
@@ -71,6 +75,7 @@ const Reservation = () => {
       review.offertID = offert.offertID;
       review.clientID = reservation.clientID;
       saveReview(review);
+      archiveReservation(reservation.reservationID);
     }
   }
   return (
@@ -96,9 +101,18 @@ const Reservation = () => {
             )}
             <br />
             {reservation && today > reservation.dates[1].toDate() ? (
-              <Button variant="contained" onClick={handleReview}>
-                Review Offert
-              </Button>
+              <>
+                {" "}
+                {reservation.archived ? (
+                  <Alert severity="warning">
+                    This reservation is archived!
+                  </Alert>
+                ) : (
+                  <Button variant="contained" onClick={handleReview}>
+                    Review Offert
+                  </Button>
+                )}
+              </>
             ) : (
               <Button variant="contained" color="error" onClick={handleCancel}>
                 Cancel Reservation
