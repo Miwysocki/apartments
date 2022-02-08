@@ -6,6 +6,7 @@ import {
   getDoc,
   getDocs,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import db from "../../firebase";
 import {
@@ -125,6 +126,41 @@ export const useOffert = () => {
     await deleteDoc(doc(db, "offers", offert.offertID));
   }
 
+  async function addFavoriteOffert(offertID, userID) {
+    const userRef = doc(db, "users", userID);
+    let fv = await getFavoritesOffers(userID);
+    if (!fv) fv = [];
+    fv.push(offertID);
+    //update
+    await updateDoc(userRef, {
+      favorites: fv,
+    });
+  }
+
+  async function deleteFromFavorites(offertID, userID) {
+    const userRef = doc(db, "users", userID);
+    const fv = await getFavoritesOffers(userID);
+    const idx = fv.indexOf(offertID);
+    fv.splice(idx, 1);
+
+    await updateDoc(userRef, {
+      favorites: fv,
+    });
+  }
+
+  async function getFavoritesOffers(userID) {
+    const userRef = doc(db, "users", userID);
+    const docSnap = await getDoc(userRef);
+    let userData;
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      userData = docSnap.data();
+    } else {
+      console.log("No such document!");
+    }
+    return userData.favorites;
+  }
+
   return {
     getPictureURL,
     getOffertByID,
@@ -133,5 +169,8 @@ export const useOffert = () => {
     searchByCity,
     listOffers,
     deleteOffert,
+    addFavoriteOffert,
+    getFavoritesOffers,
+    deleteFromFavorites,
   };
 };

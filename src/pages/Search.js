@@ -36,7 +36,7 @@ const Search = () => {
 
   useEffect(() => {
     if (offers) listMarkers();
-  }, []);
+  }, [offers]);
 
   useEffect(() => {
     if (!offers) return;
@@ -104,6 +104,7 @@ const Search = () => {
       );
     }
     setMarkers(markers);
+    console.log("markers:", markers);
   }
 
   const handleSorting = (event) => {

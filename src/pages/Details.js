@@ -33,16 +33,25 @@ import MakeReservationCard from "../components/Reservation/MakeReservationCard";
 import { useReservation } from "../components/Reservation/ReservationManager";
 import { useAuth } from "../contexts/AuthContext";
 import DeleteOffert from "../components/Offers/DeleteOffert";
+import { red } from "@mui/material/colors";
+import Footer from "../components/Footer";
 
 const Details = () => {
   const { id } = useParams();
   const { currentUser } = useAuth();
-  const { getOffertByID, getPictureURL } = useOffert();
+  const {
+    getOffertByID,
+    getPictureURL,
+    addFavoriteOffert,
+    getFavoritesOffers,
+    deleteFromFavorites,
+  } = useOffert();
   const { getReviews } = useReservation();
   const [offert, setOffert] = useState();
   const [photos, setPhotos] = useState();
   const [openReviews, setOpenReviews] = useState(false);
   const [reviews, setReviews] = useState();
+  const [favorite, setFavorite] = useState(false);
 
   useEffect(() => {
     init();
@@ -53,6 +62,10 @@ const Details = () => {
     if (offert) showReviews();
   }, [openReviews]);
 
+  useEffect(() => {
+    if (offert) checkIffav();
+  }, [offert]);
+
   async function showReviews() {
     const reviews = await getReviews(offert.offertID);
     setReviews(reviews);
@@ -62,8 +75,14 @@ const Details = () => {
     const offert = await getOffertByID(id);
     setOffert(offert);
     console.log("offert:", offert);
-
     return offert;
+  }
+  async function checkIffav() {
+    const favorites = await getFavoritesOffers(currentUser.uid);
+    console.log("favorites:", favorites);
+    if (favorites.includes(offert.offertID)) {
+      setFavorite(true);
+    }
   }
 
   async function getPhotos() {
@@ -79,6 +98,16 @@ const Details = () => {
   const imageClick = (photo) => {
     const img = document.getElementById("selectedPhoto");
     img.setAttribute("src", photo);
+  };
+
+  const handleFavorite = (event) => {
+    if (favorite) {
+      //delete from fav
+      deleteFromFavorites(offert.offertID, currentUser.uid);
+    } else {
+      addFavoriteOffert(offert.offertID, currentUser.uid);
+    }
+    setFavorite(!favorite);
   };
 
   return (
@@ -217,8 +246,16 @@ const Details = () => {
                   <CardActions>
                     <IconButton aria-label="add to favorites">
                       <Checkbox
+                        checked={favorite}
                         icon={<FavoriteBorder />}
                         checkedIcon={<Favorite />}
+                        onChange={handleFavorite}
+                        sx={{
+                          color: red[800],
+                          "&.Mui-checked": {
+                            color: red[600],
+                          },
+                        }}
                       />
                     </IconButton>
                   </CardActions>
@@ -275,6 +312,8 @@ const Details = () => {
             ))}
         </DialogContent>
       </Dialog>
+
+      <Footer />
     </div>
   );
 };
