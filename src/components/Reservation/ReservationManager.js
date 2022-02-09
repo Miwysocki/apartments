@@ -57,9 +57,10 @@ export const useReservation = () => {
     const querySnapshot = await getDocs(q);
     const reservations = [];
     querySnapshot.forEach((doc) => {
-      reservations.push(doc.data());
+      const res = doc.data();
+      res.reservationID = doc.id;
+      reservations.push(res);
     });
-    // console.log("reservations w getRese:", reservations);
     return reservations;
   }
 

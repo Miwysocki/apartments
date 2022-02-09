@@ -7,16 +7,11 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
 import db from "../../firebase";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import { Box, CardActionArea, Skeleton, Typography } from "@mui/material";
 import ReservationCard from "./ReservationCard";
 const UserReservations = (props) => {
   const userID = props.userID;
   const [reservations, setReservations] = useState();
-  const navigate = useNavigate();
 
   useEffect(() => {
     mapReservations();

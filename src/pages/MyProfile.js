@@ -19,6 +19,7 @@ const MyProfile = () => {
 
   async function init() {
     const favIDs = await getFavoritesOffers(currentUser.uid);
+    if (!favIDs) return;
     const favOffers = [];
     for (const id of favIDs) {
       favOffers.push(await getOffertByID(id));

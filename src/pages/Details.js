@@ -35,6 +35,7 @@ import { useAuth } from "../contexts/AuthContext";
 import DeleteOffert from "../components/Offers/DeleteOffert";
 import { red } from "@mui/material/colors";
 import Footer from "../components/Footer";
+import OffertReservations from "../components/Reservation/OffertReservations";
 
 const Details = () => {
   const { id } = useParams();
@@ -79,6 +80,7 @@ const Details = () => {
   }
   async function checkIffav() {
     const favorites = await getFavoritesOffers(currentUser.uid);
+    if (!favorites) return;
     console.log("favorites:", favorites);
     if (favorites.includes(offert.offertID)) {
       setFavorite(true);
@@ -263,7 +265,13 @@ const Details = () => {
               </Paper>
             </div>
             {currentUser && currentUser.uid === offert.ownerID ? (
-              <DeleteOffert offert={offert} />
+              <div>
+                {" "}
+                <DeleteOffert offert={offert} />
+                <br />
+                <h3>Active reservations</h3>
+                <OffertReservations offertID={offert.offertID} />{" "}
+              </div>
             ) : (
               ""
             )}

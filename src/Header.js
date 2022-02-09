@@ -87,11 +87,9 @@ function Header() {
                   <input
                     type="search"
                     id="searchInput"
-                    // onKeyDown={handleEnter}
                     {...getInputProps({ placeholder: "Type address" })}
                   ></input>
                   <SearchIcon />
-                  {/* <Button onClick={handleSearch}>Search</Button> */}
                 </div>
                 <div>
                   {loading ? <div>...loading</div> : null}

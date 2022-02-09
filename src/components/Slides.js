@@ -124,7 +124,7 @@ const Slides = () => {
             src="https://images.pexels.com/photos/1252500/pexels-photo-1252500.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
             alt=""
           />
-          <p>Explore nerby</p>
+          <p>Explore nearby</p>
         </div>
         <div className="tile">
           <img
