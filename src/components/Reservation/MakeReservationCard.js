@@ -36,6 +36,7 @@ const ReservationCard = (props) => {
       //saving reservation
       reservation.offertID = offert.offertID;
       reservation.clientID = currentUser.uid;
+      reservation.ownerID = offert.ownerID;
       reservation.dates = value;
       reservation.address = offert.city + ", " + offert.address;
       saveReservation(reservation);

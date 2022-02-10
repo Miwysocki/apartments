@@ -11,8 +11,6 @@ const ReservationCard = (props) => {
   const navigate = useNavigate();
 
   function showReservationDetails(id) {
-    console.log("reservation:", reservation);
-    console.log("id res caaard:", id);
     navigate("/reservation/" + id);
   }
 

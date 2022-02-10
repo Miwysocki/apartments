@@ -121,8 +121,10 @@ const Reservation = () => {
           </div>
         </div>
         <div style={{ marginTop: 100 }}>
-          <h3>Your host</h3>
+          <h3>Host</h3>
           {offert && <ProfileCard userID={offert.ownerID} />}
+          <h3>Cient</h3>
+          {offert && <ProfileCard userID={reservation.clientID} />}
         </div>
       </div>
 

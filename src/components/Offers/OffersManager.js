@@ -153,7 +153,6 @@ export const useOffert = () => {
     const docSnap = await getDoc(userRef);
     let userData;
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
       userData = docSnap.data();
     } else {
       console.log("No such document!");
